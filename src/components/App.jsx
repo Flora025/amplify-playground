@@ -60,9 +60,10 @@ const App = ({ signOut }) => {
     event.target.reset();
   }
 
-  async function deleteNote({ id }) {
+  async function deleteNote({ id, name }) {
     const newNotes = notes.filter((note) => note.id !== id);
     setNotes(newNotes);
+    await Storage.remove(name);
     await API.graphql({
       query: deleteNoteMutation,
       variables: { input: { id } }
@@ -108,12 +109,20 @@ const App = ({ signOut }) => {
               {note.name}
             </Text>
             <Text as="span">{note.description}</Text>
+            {note.image && (
+              <Image
+                src={note.image}
+                alt={`visual aid for ${notes.name}`}
+                style={{ width: 400 }}
+              />
+            )}
             <Button variation="link" onClick={() => deleteNote(note)}>
               Delete note
             </Button>
           </Flex>
         ))}
       </View>
+      <View name="image" as="input" type="file" style={{ alignSelf: 'end' }} />
       <Button onClick={signOut}>Sign Out</Button>
     </View>
   );

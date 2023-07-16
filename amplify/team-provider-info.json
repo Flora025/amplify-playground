@@ -17,6 +17,9 @@
       },
       "api": {
         "amplifyplayground": {}
+      },
+      "storage": {
+        "imagestorage": {}
       }
     }
   }
